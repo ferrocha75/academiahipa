@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 Ideas de Video — Olimpiada del Conocimiento · Academia HIPA</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ── HIPA BRAND TOKENS ── */
+  :root {
+    --blue:    #002aff;
+    --green:   #64dd00;
+    --violet:  #4d00ee;
+    --red:     #ff0000;
+    --black:   #000000;
+    --white:   #ffffff;
+    --gray-90: #0d0d0d;
+    --gray-85: #141414;
+    --gray-80: #1a1a1a;
+    --gray-70: #222222;
+    --gray-60: #333333;
+    --gray-40: #666666;
+    --gray-20: #cccccc;
+    --gray-10: #f0f0f0;
+    --font: 'Figtree', sans-serif;
+    --radius-pill: 999px;
+    --radius-card: 16px;
+    --radius-sm:   8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PIXEL PATTERN background decoration ── */
+  .pixel-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.035;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 31px, var(--white) 31px, var(--white) 32px),
+      repeating-linear-gradient(90deg, transparent, transparent 31px, var(--white) 31px, var(--white) 32px);
+    background-size: 32px 32px;
+  }
+
+  /* ── LAYOUT ── */
+  .page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--blue);
+    margin: 0 -24px;
+    padding: 36px 40px 32px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    right: 32px; top: 50%; transform: translateY(-50%);
+    width: 120px; height: 120px;
+    opacity: 0.12;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='5' y='5' width='38' height='38' rx='6' fill='white'/%3E%3Crect x='57' y='5' width='38' height='38' rx='6' fill='white'/%3E%3Crect x='5' y='57' width='38' height='38' rx='6' fill='white'/%3E%3Crect x='31' y='31' width='38' height='38' rx='6' fill='white'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 10px;
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .logo-mark {
+    width: 44px; height: 44px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  .logo-text strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .header-title {
+    font-size: clamp(26px, 5vw, 40px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .header-title span { color: var(--green); }
+  .header-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 400;
+    max-width: 480px;
+  }
+
+  /* ── TABS ── */
+  .tabs-wrapper {
+    margin-bottom: 28px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 9px 20px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--gray-70);
+    background: transparent;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--gray-40);
+    transition: all 0.18s ease;
+    letter-spacing: 0.01em;
+  }
+  .tab:hover:not(.active) {
+    border-color: var(--gray-60);
+    color: var(--gray-20);
+  }
+  .tab.active {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--black);
+  }
+
+  /* ── CARD ── */
+  .card {
+    display: none;
+    background: var(--gray-90);
+    border: 1px solid var(--gray-80);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    animation: fadeUp 0.25s ease forwards;
+  }
+  .card.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Card top stripe */
+  .card-stripe {
+    height: 4px;
+    background: var(--blue);
+  }
+  .card-stripe.green  { background: var(--green); }
+  .card-stripe.violet { background: var(--violet); }
+  .card-stripe.red    { background: var(--red); }
+
+  .card-inner { padding: 28px 32px 32px; }
+
+  /* ── BADGE ROW ── */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .badge-blue   { background: rgba(0,42,255,0.25); color: #7a9fff; border: 1px solid rgba(0,42,255,0.4); }
+  .badge-green  { background: rgba(100,221,0,0.15); color: var(--green); border: 1px solid rgba(100,221,0,0.3); }
+  .badge-violet { background: rgba(77,0,238,0.25); color: #b380ff; border: 1px solid rgba(77,0,238,0.4); }
+  .badge-red    { background: rgba(255,0,0,0.15); color: #ff6b6b; border: 1px solid rgba(255,0,0,0.3); }
+  .badge-white  { background: rgba(255,255,255,0.08); color: var(--gray-20); border: 1px solid rgba(255,255,255,0.15); }
+
+  /* ── VIDEO TITLE ── */
+  .video-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  .video-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .video-subtitle {
+    font-size: 14px;
+    color: var(--gray-40);
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 24px; }
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  /* ── HOOK BOX ── */
+  .hook-box {
+    background: var(--blue);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.5;
+    position: relative;
+    padding-left: 44px;
+  }
+  .hook-box::before {
+    content: '"';
+    position: absolute;
+    left: 16px;
+    top: 10px;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  /* ── QUESTIONS LIST ── */
+  .questions-list { list-style: none; }
+  .questions-list li {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    padding: 10px 0 10px 20px;
+    border-bottom: 1px solid var(--gray-80);
+    line-height: 1.5;
+    position: relative;
+  }
+  .questions-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .questions-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  /* ── SCRIPT BLOCK ── */
+  .script-block {
+    background: var(--gray-85);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--violet);
+    overflow: hidden;
+  }
+  .script-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--gray-80);
+  }
+  .script-row:last-child { border-bottom: none; }
+  .script-timing {
+    padding: 12px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 0.04em;
+    background: rgba(100,221,0,0.06);
+    border-right: 1px solid var(--gray-80);
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.4;
+  }
+  .script-content {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+  }
+  .script-quote {
+    color: var(--white);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  /* ── FILMING GRID ── */
+  .filming-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .filming-item {
+    background: var(--gray-85);
+    border: 1px solid var(--gray-80);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .filming-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  .filming-value {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.45;
+  }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    background: var(--green);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--black);
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+  .tip-box strong {
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .tip-box strong::before {
+    content: '★';
+    font-size: 12px;
+  }
+
+  /* ── CTA BOX ── */
+  .cta-box {
+    background: var(--gray-85);
+    border: 1.5px solid var(--blue);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+  .cta-box em {
+    font-style: normal;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--gray-80); margin: 20px 0; }
+
+  /* ── PIXEL DECORATION inside card ── */
+  .pixel-deco {
+    display: inline-flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    width: 28px;
+    margin-right: 8px;
+    vertical-align: middle;
+    opacity: 0.5;
+  }
+  .pixel-deco span {
+    display: block;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: var(--green);
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    margin-top: 64px;
+    padding: 28px 0;
+    border-top: 1px solid var(--gray-80);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--gray-40);
+  }
+  .footer-brand strong { color: var(--white); }
+  .footer-url {
+    font-size: 12px;
+    color: var(--gray-40);
+    text-decoration: none;
+  }
+  .footer-url:hover { color: var(--green); }
+</style>
+</head>
+<body>
+
+<div class="pixel-bg" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-eyebrow">Estrategia de contenido · Evento 2026</div>
+    <div class="header-logo">
+      <!-- HIPA logo mark (modular squares) -->
+      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Academia HIPA logo">
+        <rect x="6" y="6" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="5"/>
+        <rect x="58" y="6" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="5"/>
+        <rect x="6" y="58" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="5"/>
+        <rect x="32" y="32" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="5"/>
+      </svg>
+      <div class="logo-text">
+        <strong>academia hipa</strong>
+        Habilidades Intelectuales de Pensamiento Analítico
+      </div>
+    </div>
+    <h1 class="header-title"><span>5 ideas</span> de video<br>Olimpiada del Conocimiento</h1>
+    <p class="header-sub">Guiones, preguntas de entrevista y sugerencias de grabación para el equipo en campo.</p>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs-wrapper" role="tablist">
+    <button class="tab active" onclick="show(0)" role="tab" aria-selected="true">Video 1</button>
+    <button class="tab" onclick="show(1)" role="tab">Video 2</button>
+    <button class="tab" onclick="show(2)" role="tab">Video 3</button>
+    <button class="tab" onclick="show(3)" role="tab">Video 4</button>
+    <button class="tab" onclick="show(4)" role="tab">Video 5</button>
+  </div>
+
+  <!-- ══ VIDEO 1 ══ -->
+  <div class="card active" id="v0" role="tabpanel">
+    <div class="card-stripe blue"></div>
+    <div class="card-inner">
+      <div class="badge-row">
+        <span class="badge badge-blue">Entrevista principal</span>
+        <span class="badge badge-green">Carrizales</span>
+        <span class="badge badge-white">Reels · TikTok</span>
+      </div>
+      <div class="video-num">Video 01 · Walking Interview</div>
+      <h2 class="video-title">"El Maestro detrás del Método"</h2>
+      <p class="video-subtitle">Entrevista caminando con el Maestro Carrizales en el evento — formato documental rápido que transmite autoridad sin guión forzado.</p>
+
+      <div class="section">
+        <div class="section-label">Hook · 0–3 seg</div>
+        <div class="hook-box">Él entrenó a estos niños con un método que ninguna escuela enseña. Hoy compiten a nivel nacional.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Preguntas sugeridas</div>
+        <ul class="questions-list">
+          <li>¿Qué hace diferente al Método CARRI para preparar a estudiantes jóvenes?</li>
+          <li>¿Qué fue lo primero que notaste en estos alumnos cuando empezaron a entrenar?</li>
+          <li>¿Qué le dirías a un papá que duda si inscribir a su hijo en Academia HIPA?</li>
+          <li>¿Por qué decidiste llevar a tus alumnos a un concurso como este?</li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <div class="section-label">Script de cierre · últimos 3 seg</div>
+        <div class="script-block">
+          <div class="script-row">
+            <div class="script-timing">Cierre · voz en off</div>
+            <div class="script-content"><span class="script-quote">"Esto es lo que pasa cuando el aprendizaje tiene método. Conoce Academia HIPA — link en bio."</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Cómo grabar</div>
+        <div class="filming-grid">
+          <div class="filming-item">
+            <div class="filming-label">Encuadre</div>
+            <div class="filming-value">Walking interview: cámara frente a él, ambos caminando entre los stands del evento.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Planos extra</div>
+            <div class="filming-value">Manos del Maestro gesticulando, banner del evento de fondo, primeros planos a los ojos.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Ritmo de edición</div>
+            <div class="filming-value">Corte cada 4–6 seg. Subtítulos en pantalla. Sin música intensa — voz que domina.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Duración</div>
+            <div class="filming-value">30–45 seg para Reels. Versión larga de 90 seg para YouTube Shorts.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box"><strong>Tip de oro:</strong> Graba primero sin preguntas — solo Carrizales caminando hacia cámara. Ese plano abre el video con autoridad.</div>
+    </div>
+  </div>
+
+  <!-- ══ VIDEO 2 ══ -->
+  <div class="card" id="v1" role="tabpanel">
+    <div class="card-stripe green"></div>
+    <div class="card-inner">
+      <div class="badge-row">
+        <span class="badge badge-green">Entrevista alumnos</span>
+        <span class="badge badge-violet">Social proof</span>
+        <span class="badge badge-white">Reels · TikTok</span>
+      </div>
+      <div class="video-num">Video 02 · Voces del Evento</div>
+      <h2 class="video-title">"¿Cómo se siente competir a nivel nacional?"</h2>
+      <p class="video-subtitle">Entrevistas rápidas back-to-back con 3–4 alumnos. Formato "voces del evento" — corte rápido, máxima autenticidad.</p>
+
+      <div class="section">
+        <div class="section-label">Hook · 0–3 seg</div>
+        <div class="hook-box">Les preguntamos a los alumnos de HIPA cómo llegaron hasta aquí… y esto nos dijeron.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Preguntas sugeridas · elegir 2–3 por alumno</div>
+        <ul class="questions-list">
+          <li>¿Cuánto tiempo llevas estudiando con el Método CARRI?</li>
+          <li>¿Cuál fue el cambio más grande que notaste en ti desde que empezaste?</li>
+          <li>¿Qué es lo que más te gusta de tener un Tutor IA disponible a cualquier hora?</li>
+          <li>¿Qué le dirías a otro estudiante que todavía no conoce Academia HIPA?</li>
+          <li>¿Cómo te preparaste para este concurso?</li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <div class="section-label">Estructura del video</div>
+        <div class="script-block">
+          <div class="script-row">
+            <div class="script-timing">0–3 seg</div>
+            <div class="script-content">Texto animado: <span class="script-quote">"Ellos no solo estudian. Ellos tienen método."</span> + primer clip de alumno.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">3–25 seg</div>
+            <div class="script-content">Alternar 3–4 alumnos, 5–7 seg cada uno. Sin pausas largas entre respuestas.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">25–30 seg</div>
+            <div class="script-content">Último alumno mira a cámara: <span class="script-quote">"Si quieres llegar hasta aquí, empieza en Academia HIPA."</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Cómo grabar</div>
+        <div class="filming-grid">
+          <div class="filming-item">
+            <div class="filming-label">Encuadre</div>
+            <div class="filming-value">Plano medio. Alumno centrado, fondo con actividad del evento (no pared vacía).</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Dinámica</div>
+            <div class="filming-value">Entrevistador fuera de cuadro. Alumno habla a cámara directamente. Más íntimo.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Detalle clave</div>
+            <div class="filming-value">Que se vea el gafete o uniforme con nombre de Academia HIPA si existe.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Audio</div>
+            <div class="filming-value">Acercar el micrófono o usar lavalier. El ruido del evento mata la retención.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box"><strong>Tip de oro:</strong> Graba al alumno más expresivo y seguro de último — ese clip cierra el video y es el que más recordarán.</div>
+    </div>
+  </div>
+
+  <!-- ══ VIDEO 3 ══ -->
+  <div class="card" id="v2" role="tabpanel">
+    <div class="card-stripe violet"></div>
+    <div class="card-inner">
+      <div class="badge-row">
+        <span class="badge badge-violet">Entrevista papás</span>
+        <span class="badge badge-blue">Confianza · Conversión</span>
+        <span class="badge badge-white">Facebook Ads · Reels</span>
+      </div>
+      <div class="video-num">Video 03 · Testimonio Padres</div>
+      <h2 class="video-title">"Lo que ningún papá esperaba ver"</h2>
+      <p class="video-subtitle">Testimonio emocional de padres de familia en el evento. El video de mayor conversión — especialmente para Facebook Ads dirigido a padres.</p>
+
+      <div class="section">
+        <div class="section-label">Hook · 0–3 seg</div>
+        <div class="hook-box">Este papá no imaginaba que su hijo estaría hoy compitiendo a nivel nacional. Esto fue lo que cambió.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Preguntas sugeridas</div>
+        <ul class="questions-list">
+          <li>¿Cuándo decidiste inscribir a tu hijo/hija en Academia HIPA y por qué?</li>
+          <li>¿Qué cambios concretos notaste en tu hijo desde que empezó con el Método CARRI?</li>
+          <li>¿Qué pensaste cuando te dijeron que habría un Tutor IA disponible para él/ella?</li>
+          <li>¿Qué le dirías a otro papá o mamá que todavía no se decide?</li>
+          <li>¿Esperabas verlo/verla aquí hoy compitiendo a nivel nacional?</li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <div class="section-label">Estructura del video</div>
+        <div class="script-block">
+          <div class="script-row">
+            <div class="script-timing">0–3 seg</div>
+            <div class="script-content">Texto en pantalla: <span class="script-quote">"Lo que este papá vio en 3 meses con Academia HIPA..."</span> + plano del evento de fondo.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">3–35 seg</div>
+            <div class="script-content">Testimonio fluido del papá o mamá. Dejar que el silencio emocional respire — no cortar en momentos cargados.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">35–45 seg</div>
+            <div class="script-content">Corte a Carrizales (opcional): <span class="script-quote">"Eso es lo que buscamos: familias orgullosas."</span> + CTA en pantalla.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Cómo grabar</div>
+        <div class="filming-grid">
+          <div class="filming-item">
+            <div class="filming-label">Encuadre</div>
+            <div class="filming-value">Plano medio-cerrado. Si hay emoción, hacer un ligero zoom in lento durante la respuesta.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">B-roll clave</div>
+            <div class="filming-value">Grabar al hijo/hija en acción durante el concurso — intercalar con el testimonio del papá.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Momento dorado</div>
+            <div class="filming-value">Si el papá se emociona al hablar de su hijo — ese clip es el que abre el video.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Para ads</div>
+            <div class="filming-value">Versión de 15 seg para Stories y versión de 45 seg para Feed / Facebook Ads.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box"><strong>Tip de oro:</strong> No interrumpas al papá mientras habla. Las mejores frases salen cuando ya no sienten la cámara. Deja correr la grabación después de la última pregunta.</div>
+    </div>
+  </div>
+
+  <!-- ══ VIDEO 4 ══ -->
+  <div class="card" id="v3" role="tabpanel">
+    <div class="card-stripe green"></div>
+    <div class="card-inner">
+      <div class="badge-row">
+        <span class="badge badge-green">Detrás de cámaras</span>
+        <span class="badge badge-blue">Branding · Orgullo</span>
+        <span class="badge badge-white">Stories · Reels rápido</span>
+      </div>
+      <div class="video-num">Video 04 · POV Vlog</div>
+      <h2 class="video-title">"Un día en la Olimpiada — POV Academia HIPA"</h2>
+      <p class="video-subtitle">Video dinámico estilo vlog/POV que muestra la experiencia del evento de principio a fin. Genera FOMO y orgullo de marca.</p>
+
+      <div class="section">
+        <div class="section-label">Hook · 0–3 seg</div>
+        <div class="hook-box">POV: Eres alumno de Academia HIPA y hoy compites a nivel nacional. Así se vivió.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Secuencia de clips a grabar · orden cronológico</div>
+        <div class="script-block">
+          <div class="script-row">
+            <div class="script-timing">Llegada</div>
+            <div class="script-content">Alumnos bajando del transporte, cargando materiales, saludándose. Energía pura.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">Registro</div>
+            <div class="script-content">Plano del cartel oficial + plano del banner de Academia HIPA como patrocinador.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">Último consejo</div>
+            <div class="script-content">30 seg de Carrizales hablando al grupo antes de entrar. Plano grupal + primeros planos de caras.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">Concurso</div>
+            <div class="script-content">Alumnos concentrados, escribiendo, pensando. Sin interrumpir — grabar desde lejos.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">Reacción</div>
+            <div class="script-content">El momento en que salen: risas, abrazos, alivio. <strong style="color:var(--green)">Este clip es oro puro.</strong></div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">Cierre</div>
+            <div class="script-content">Carrizales mirando a cámara: <span class="script-quote">"Esto es lo que pasa cuando el método funciona."</span> + logo HIPA.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Cómo grabar</div>
+        <div class="filming-grid">
+          <div class="filming-item">
+            <div class="filming-label">Estilo</div>
+            <div class="filming-value">Cámara en mano, movimiento natural. Sin tripié — se busca energía de campo.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Lente</div>
+            <div class="filming-value">Gran angular si está disponible. En celular, lente 0.5x para ambiente.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Audio</div>
+            <div class="filming-value">Ambiente natural del evento + canción trending en edición (buscar en TikTok ese día).</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Edición</div>
+            <div class="filming-value">Corte al ritmo de la música. Transiciones en beat. Duración final: 30–60 seg.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box"><strong>Tip de oro:</strong> Las reacciones al salir del concurso (alegría o alivio) son el clip más auténtico. Priorízalo aunque tengas que correr a grabarlo.</div>
+    </div>
+  </div>
+
+  <!-- ══ VIDEO 5 ══ -->
+  <div class="card" id="v4" role="tabpanel">
+    <div class="card-stripe red"></div>
+    <div class="card-inner">
+      <div class="badge-row">
+        <span class="badge badge-red">Cierre emocional</span>
+        <span class="badge badge-violet">Carrizales + Alumnos</span>
+        <span class="badge badge-green">Evergreen · Ads</span>
+      </div>
+      <div class="video-num">Video 05 · Ad Evergreen</div>
+      <h2 class="video-title">"Esto no es suerte — es Método CARRI"</h2>
+      <p class="video-subtitle">Video narrativo de alto impacto. Combina voz de Carrizales con imágenes del evento. Puede usarse como anuncio pagado por meses.</p>
+
+      <div class="section">
+        <div class="section-label">Hook · 0–3 seg</div>
+        <div class="hook-box">Estos niños no llegaron a la Olimpiada del Conocimiento por suerte. Llegaron por esto.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Script completo</div>
+        <div class="script-block">
+          <div class="script-row">
+            <div class="script-timing">0–3 seg</div>
+            <div class="script-content">Texto en pantalla: <span class="script-quote">"Olimpiada del Conocimiento — Nacional 2026"</span> + imagen del evento.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">3–12 seg</div>
+            <div class="script-content"><strong style="color:var(--green)">Carrizales a cámara:</strong> <span class="script-quote">"El Método CARRI no es una técnica de estudio. Es una forma de activar el potencial que ya existe en cada alumno. Lo único que necesitaban era el sistema correcto."</span></div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">12–25 seg</div>
+            <div class="script-content"><strong style="color:var(--green)">B-roll del evento · voz en off:</strong> <span class="script-quote">"Cuando un alumno aprende con CARRI, no solo memoriza — entiende, conecta y aplica. Y eso no se improvisa."</span></div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">25–35 seg</div>
+            <div class="script-content"><strong style="color:var(--green)">Alumno o papá:</strong> Frase corta y directa. Seleccionar el mejor testimonio de los otros videos.</div>
+          </div>
+          <div class="script-row">
+            <div class="script-timing">35–45 seg</div>
+            <div class="script-content"><strong style="color:var(--green)">Carrizales cierre:</strong> <span class="script-quote">"Si quieres que tu hijo compita al más alto nivel, dale el método. Dale Academia HIPA."</span> + logo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Cómo grabar la parte de Carrizales</div>
+        <div class="filming-grid">
+          <div class="filming-item">
+            <div class="filming-label">Locación</div>
+            <div class="filming-value">Rincón del evento con banner visible pero sin ruido excesivo. Fondo con contexto.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Encuadre</div>
+            <div class="filming-value">Plano medio-cerrado. Carrizales centrado. Mirada directa a cámara — no al entrevistador.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Iluminación</div>
+            <div class="filming-value">Luz natural lateral si es exterior. Si es interior, ponerlo de espaldas a la ventana.</div>
+          </div>
+          <div class="filming-item">
+            <div class="filming-label">Uso final</div>
+            <div class="filming-value">Funciona como ad evergreen — puede usarse como anuncio pagado meses después del evento.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <strong style="color:var(--green);display:block;margin-bottom:4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Texto en pantalla final sugerido</strong>
+        <em>"El método que lleva alumnos a competir a nivel nacional."</em><br>
+        Conoce Academia HIPA — link en bio / <em>academiahipa.com.mx</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="6" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="6"/>
+        <rect x="58" y="6" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="6"/>
+        <rect x="6" y="58" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="6"/>
+        <rect x="32" y="32" width="36" height="36" rx="7" fill="none" stroke="#64dd00" stroke-width="6"/>
+      </svg>
+      <span><strong>Academia HIPA</strong> · Olimpiada del Conocimiento 2026</span>
+    </div>
+    <a href="https://www.academiahipa.com.mx" class="footer-url" target="_blank">academiahipa.com.mx</a>
+  </footer>
+
+</div>
+
+<script>
+  function show(idx) {
+    document.querySelectorAll('.card').forEach((c, i) => c.classList.toggle('active', i === idx));
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', i === idx);
+      t.setAttribute('aria-selected', i === idx);
+    });
+  }
+</script>
+
+</body>
+</html>
